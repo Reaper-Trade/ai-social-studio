@@ -3,355 +3,284 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+  
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#050817">
-<title>AI Social Studio — Create. Post. Grow.</title>
+<meta name="theme-color" content="#070817">
+<title>AI Social Studio</title>
 <style>
-:root {
-  --bg:#050817; --panel:#0a1226; --line:#1b2b4d;
-  --purple:#a855f7; --blue:#387bff; --text:#f5f4ff;
-  --muted:#a8b2cc; --cyan:#37d9ff;
-}
-* {box-sizing:border-box}
-body {
-  margin:0;background:var(--bg);color:var(--text);
-  font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-}
-button,input,textarea,select {font:inherit}
-button {cursor:pointer}
-button:focus-visible,input:focus-visible,textarea:focus-visible {
-  outline:2px solid var(--cyan);outline-offset:3px;
-}
-.topbar {
-  display:flex;align-items:center;gap:16px;padding:16px 22px;
-  border-bottom:1px solid var(--line);position:sticky;top:0;
-  background:#050817f5;z-index:5;
-}
-.brand {display:flex;align-items:center;gap:10px;min-width:200px}
-.cat {font-size:43px;filter:drop-shadow(0 0 12px #8b5cf6)}
-.brand strong {font-size:21px;letter-spacing:2px}
-.brand strong span {color:#c084fc}
-.brand small {display:block;color:#8ddcff;margin-top:4px}
-.search {flex:1;max-width:490px}
-.search input {width:100%;padding:12px 16px;border-radius:30px}
-input,textarea,select {
-  background:#101b31;border:1px solid var(--line);border-radius:12px;
-  padding:12px;color:var(--text);width:100%;
-}
-.profile {margin-left:auto;color:#c9b7ff;white-space:nowrap}
-.layout {display:grid;grid-template-columns:175px minmax(0,1fr) 280px;gap:16px;padding:16px}
-.sidebar,.panel,.hero,.post,.idea,.plan {
-  background:var(--panel);border:1px solid var(--line);border-radius:16px;
-}
-.sidebar {padding:12px;height:max-content;position:sticky;top:90px}
-.nav {
-  display:block;width:100%;text-align:left;color:var(--text);
-  background:transparent;border:0;padding:13px 12px;border-radius:11px;
-  margin-bottom:5px;
-}
-.nav.active,.nav:hover {background:linear-gradient(100deg,#7638f5,#3c64f6)}
-.main {min-width:0}
-.hero {
-  display:flex;align-items:center;gap:16px;padding:20px;margin-bottom:16px;
-  background:radial-gradient(ellipse at 10% 50%,#47217a 0,transparent 48%),#091329;
-  border-color:#6236b5;
-}
-.mascot {
-  font-size:76px;min-width:92px;text-align:center;
-  filter:drop-shadow(0 0 15px #9d4edd);
-}
-.hero h1 {font-size:clamp(22px,3vw,34px);margin:0 0 8px}
-.hero p {color:var(--muted);margin:0 0 12px;line-height:1.5}
-.actions {display:flex;gap:8px;flex-wrap:wrap}
-.btn {
-  border:1px solid var(--line);background:#111d36;color:white;
-  border-radius:12px;padding:11px 14px;
-}
-.btn.primary {background:linear-gradient(110deg,#9333ea,#386fff);border:0}
-.btn:hover {filter:brightness(1.15)}
-.panel {padding:15px;margin-bottom:16px}
-.sectionhead {display:flex;justify-content:space-between;align-items:center;gap:10px}
-h2 {font-size:18px;margin:0 0 12px}
-.tabs {display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}
-.tab {border:1px solid var(--line);background:#0b1429;color:var(--muted);padding:9px 13px;border-radius:24px}
-.tab.active {background:linear-gradient(110deg,#9333ea,#386fff);color:white}
-.postgrid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.post {overflow:hidden;min-width:0}
-.art {
-  min-height:155px;padding:15px;display:flex;align-items:center;
-  justify-content:center;text-align:center;font-size:21px;font-weight:800;
-  letter-spacing:1px;line-height:1.35;text-shadow:0 2px 8px #000;
-  background:linear-gradient(145deg,#5a277d,#f18d9c 55%,#172c55);
-}
-.art.a2 {background:linear-gradient(145deg,#f9a66c,#4c478f,#081a3b)}
-.art.a3 {background:linear-gradient(145deg,#0a7774,#1763b5,#11152f)}
-.art.a4 {background:linear-gradient(145deg,#57338b,#111c3b,#da669c)}
-.art.a5 {background:linear-gradient(145deg,#9d7049,#132e36,#1b1746)}
-.art.a6 {background:linear-gradient(145deg,#213b70,#a15fc1,#f1a6a5)}
-.postbody {padding:11px}
-.postbody p {font-size:13px;color:#d1d8eb;line-height:1.5;margin:8px 0}
-.tags {font-size:12px;color:#56d9ff;line-height:1.5;overflow-wrap:anywhere}
-.status {display:inline-block;border-radius:20px;padding:5px 9px;font-size:11px;margin-top:9px}
-.Posted {background:#073b30;color:#65f0bd}
-.Draft {background:#28224b;color:#d1b5ff}
-.Scheduled {background:#102d58;color:#9cc9ff}
-.postbottom {display:flex;justify-content:space-between;gap:5px;align-items:center;font-size:11px;color:var(--muted)}
-.right h2 {margin-bottom:12px}
-.stats {display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.stat {padding:13px;border:1px solid var(--line);border-radius:13px}
-.stat span {font-size:12px;color:var(--muted)}
-.stat strong {display:block;font-size:23px;margin-top:8px}
-.demo {font-size:11px;color:#8e9dbb;margin-top:10px}
-.idea {padding:12px;margin:9px 0;font-size:13px;line-height:1.5}
-.idea small {display:block;color:var(--cyan);margin-top:4px}
-.quick {width:100%;margin:5px 0;text-align:left}
-.plan {padding:14px;margin-top:12px;background:linear-gradient(145deg,#29144e,#101d42)}
-.plan p {font-size:13px;color:var(--muted);line-height:1.5}
-label {display:block;font-size:13px;color:#d7def1;margin:12px 0 6px}
-textarea {min-height:90px;resize:vertical}
-.formgrid {display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.days {display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
-.days label {margin:0;background:#101b31;border:1px solid var(--line);border-radius:10px;padding:9px}
-.days input {width:auto}
-#notice {color:#79f3c5;font-size:13px;margin-top:10px}
-.uploadbox {border:1px dashed #6654a7;padding:14px;border-radius:12px}
-.uploadbox input {padding:7px}
-.preview {display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.preview img {width:72px;height:72px;object-fit:cover;border-radius:10px}
-footer {padding:20px;text-align:center;color:var(--muted);font-size:12px}
-[hidden] {display:none!important}
-@media(max-width:1000px) {
- .layout {grid-template-columns:145px minmax(0,1fr)}
- .right {grid-column:2}
- .postgrid {grid-template-columns:repeat(2,minmax(0,1fr))}
-}
-@media(max-width:620px) {
- .topbar {padding:12px;gap:9px;flex-wrap:wrap}
- .brand {min-width:0;flex:1}.brand strong{font-size:16px}
- .brand .cat {font-size:32px}.search{order:3;max-width:none;flex-basis:100%}
- .profile {font-size:12px}
- .layout {display:block;padding:10px}
- .sidebar {position:static;display:flex;overflow-x:auto;gap:4px;margin-bottom:12px;padding:7px}
- .nav {width:auto;white-space:nowrap;margin:0;padding:10px;font-size:13px}
- .hero {padding:14px;gap:9px}.mascot{font-size:53px;min-width:55px}
- .hero h1{font-size:23px}
- .postgrid {grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
- .art {min-height:130px;font-size:17px;padding:10px}
- .postbody {padding:8px}.postbody p{font-size:12px}
- .right {margin-top:14px}
- .formgrid {grid-template-columns:1fr}
-}
+:root{--bg:#070817;--panel:#10152a;--line:#283253;--purple:#a855f7;--blue:#426cff;--text:#f7f5ff;--muted:#a8b1ca}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+input,select,textarea{width:100%;padding:12px;border-radius:11px;border:1px solid var(--line);background:#0a1022;color:var(--text)}
+label{display:block;font-size:13px;color:#d3d8e9;margin:12px 0 6px}
+.top{padding:15px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;flex-wrap:wrap;position:sticky;top:0;background:#070817f5;z-index:3}
+.logo{font-size:20px;font-weight:800;letter-spacing:1px}.logo span{color:#c084fc}
+.cat{font-size:37px;filter:drop-shadow(0 0 10px #9d4edd)}
+.top input{max-width:330px;margin-left:auto}
+.layout{display:grid;grid-template-columns:160px minmax(0,1fr) 245px;gap:14px;padding:15px}
+nav,.panel,.hero,.post,.plan{border:1px solid var(--line);background:var(--panel);border-radius:16px}
+nav{padding:9px;height:max-content;position:sticky;top:90px}
+.nav{width:100%;display:block;text-align:left;border:0;background:transparent;color:var(--text);padding:12px 10px;border-radius:10px;margin-bottom:4px}
+.nav.active,.nav:hover{background:linear-gradient(110deg,#853bea,#3f65f6)}
+main{min-width:0}
+.hero{padding:20px;display:flex;gap:15px;align-items:center;background:radial-gradient(ellipse at 10% 20%,#47216f,transparent 65%),#10152a;border-color:#5837a0;margin-bottom:14px}
+.hero .cat{font-size:65px}
+h1{font-size:clamp(23px,3vw,34px);margin:0 0 8px}
+h2{font-size:19px;margin:0 0 13px}
+p{line-height:1.55}
+.muted,.demo{color:var(--muted);font-size:13px}
+.actions,.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn,.tab{border:1px solid var(--line);background:#171e37;color:white;padding:10px 13px;border-radius:11px}
+.primary,.tab.active{background:linear-gradient(110deg,#953beb,#3d6bff);border:0}
+.panel{padding:15px;margin-bottom:14px;scroll-margin-top:90px}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.postgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.post{overflow:hidden;min-width:0}
+.art{min-height:135px;display:grid;place-items:center;text-align:center;padding:12px;font-size:19px;font-weight:800;background:linear-gradient(140deg,#7c3da0,#ed91b3,#233d70)}
+.a2{background:linear-gradient(140deg,#f6ae74,#4b478f,#111c3d)}
+.a3{background:linear-gradient(140deg,#0e807e,#2565ad,#10142b)}
+.a4{background:linear-gradient(140deg,#61338d,#171c3e,#d86eae)}
+.a5{background:linear-gradient(140deg,#9c724b,#163f43,#25174a)}
+.a6{background:linear-gradient(140deg,#293f78,#a15fc1,#eea4b4)}
+.postbody{padding:10px}.postbody p{font-size:13px;color:#d2d8e9}
+.status{display:inline-block;border-radius:20px;padding:5px 8px;font-size:11px;background:#28224b;color:#d5b7ff}
+.postbottom{color:var(--muted);font-size:11px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stat,.idea{padding:12px;border:1px solid var(--line);border-radius:12px;margin:7px 0}
+.stat small{color:var(--muted)}.stat strong{display:block;font-size:22px;margin-top:6px}
+.idea{font-size:13px;line-height:1.5}
+.idea small{display:block;color:#64dfff;margin-top:5px}
+.plan{padding:12px;background:linear-gradient(140deg,#32184e,#111d40)}
+.preview{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.preview img{width:80px;height:80px;object-fit:cover;border-radius:9px}
+video{width:100%;max-height:390px;background:#000;border-radius:12px;margin-top:12px}
+#notice,#editMessage{color:#80efc5;font-size:13px;line-height:1.5}
+footer{text-align:center;padding:20px;color:var(--muted);font-size:12px}
+[hidden]{display:none!important}
+@media(max-width:950px){.layout{grid-template-columns:130px minmax(0,1fr)}.right{grid-column:2}.postgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.top{padding:11px}.logo{font-size:16px}.cat{font-size:30px}.top input{max-width:none;flex-basis:100%;order:3}.layout{display:block;padding:9px}nav{position:static;display:flex;overflow-x:auto;gap:3px;margin-bottom:12px;padding:6px}.nav{width:auto;white-space:nowrap;padding:10px;font-size:12px}.hero{padding:13px;gap:9px}.hero .cat{font-size:43px}.hero h1{font-size:23px}.postgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.art{min-height:120px;font-size:16px}.right{margin-top:14px}.formgrid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<header class="topbar">
-  <div class="brand"><span class="cat">🐈‍⬛</span><div><strong><span>AI</span> SOCIAL STUDIO</strong><small>Create · Post · Grow</small></div></div>
-  <div class="search"><input id="search" placeholder="Search your posts and ideas…" aria-label="Search posts"></div>
-  <div class="profile">● &nbsp; Your Studio</div>
+<header class="top">
+  <span class="cat">🐈‍⬛</span>
+  <div class="logo"><span>AI</span> SOCIAL STUDIO<div class="muted">Create · Post · Grow</div></div>
+  <input id="search" placeholder="Search content…" aria-label="Search content">
 </header>
 
 <div class="layout">
-<nav class="sidebar" aria-label="Main navigation">
-  <button class="nav active" data-view="home">⌂ &nbsp; Home</button>
-  <button class="nav" data-view="create">＋ &nbsp; Create Post</button>
-  <button class="nav" data-view="ideas">✧ &nbsp; Content Ideas</button>
-  <button class="nav" data-view="calendar">▦ &nbsp; Calendar</button>
-  <button class="nav" data-view="analytics">▥ &nbsp; Analytics</button>
-  <button class="nav" data-view="photos">▧ &nbsp; Photos</button>
-  <button class="nav" data-view="plans">♛ &nbsp; Plans</button>
+<nav aria-label="Main navigation">
+  <button class="nav active" data-view="home">⌂ Home</button>
+  <button class="nav" data-view="create">＋ Create Post</button>
+  <button class="nav" data-view="ideas">✧ Content Ideas</button>
+  <button class="nav" data-view="calendar">▦ Calendar</button>
+  <button class="nav" data-view="edit">✂ Edit Studio</button>
+  <button class="nav" data-view="analytics">▥ Analytics</button>
+  <button class="nav" data-view="photos">▧ Media Library</button>
+  <button class="nav" data-view="plans">♛ Plans</button>
 </nav>
 
-<main class="main">
+<main>
 <section class="hero">
-  <div class="mascot" aria-label="Black cat mascot">🐈‍⬛</div>
-  <div>
-    <h1>Hey, creator! ✨</h1>
-    <p>Your brand has a story. Let's tell it beautifully.</p>
-    <div class="actions">
-      <button class="btn primary" data-go="create">＋ Create a post</button>
-      <button class="btn" data-go="ideas">✧ Get ideas</button>
-      <button class="btn" data-go="calendar">▦ Plan my week</button>
-    </div>
-  </div>
+  <span class="cat">🐈‍⬛</span>
+  <div><h1>Hey, creator! ✨</h1>
+  <p class="muted">Your brand has a story. Let's tell it beautifully.</p>
+  <div class="actions">
+    <button class="btn primary" data-go="create">＋ Create post</button>
+    <button class="btn" data-go="edit">✂ Edit video</button>
+    <button class="btn" data-go="calendar">▦ Plan your week</button>
+  </div></div>
 </section>
 
 <section class="panel" id="creator">
-  <h2>Create something amazing</h2>
-  <p style="color:var(--muted);font-size:13px">Tell us what you're sharing and start with a caption draft.</p>
-  <div class="formgrid">
-    <div><label for="business">Business or brand name</label><input id="business" placeholder="e.g. Luna Coffee Co."></div>
-    <div><label for="kind">What is your business?</label><input id="kind" placeholder="e.g. Coffee shop, salon"></div>
-    <div><label for="tone">Your brand's voice</label><select id="tone"><option>Friendly and warm</option><option>Fun and playful</option><option>Professional</option><option>Bold and confident</option><option>Calm and elegant</option></select></div>
-    <div><label for="goal">Post goal</label><select id="goal"><option>Build engagement</option><option>Promote a product</option><option>Get more customers</option><option>Share a helpful tip</option><option>Tell our story</option></select></div>
-  </div>
-  <label for="topic">What would you like to post about?</label>
-  <textarea id="topic" placeholder="Describe your photo, product, offer, or idea…"></textarea>
-  <label for="photos">Add your photos</label>
-  <div class="uploadbox"><input type="file" id="photos" accept="image/*" multiple><div class="preview" id="preview"></div><small style="color:var(--muted)">Preview only for now; photos are not uploaded to cloud storage.</small></div>
-  <div class="actions" style="margin-top:13px">
-    <button class="btn primary" id="generate">✧ Generate caption draft</button>
-    <button class="btn" id="clear">Clear</button>
-  </div>
-  <div id="result" hidden>
-    <label for="caption">Your caption draft — edit it anytime</label>
-    <textarea id="caption"></textarea>
-    <div class="actions" style="margin-top:10px">
-      <button class="btn primary" id="save">Save to content board</button>
-      <button class="btn" id="copy">Copy caption</button>
-    </div>
-  </div>
-  <div id="notice" role="status"></div>
-  <p class="demo">This version creates starter drafts in your browser. A real AI API and cloud saving are not connected yet.</p>
+<h2>✧ Create a post</h2>
+<p class="muted">Start with your idea, then create a caption draft.</p>
+<div class="formgrid">
+<div><label for="business">Business name</label><input id="business" placeholder="Luna Coffee Co."></div>
+<div><label for="kind">Business type</label><input id="kind" placeholder="Coffee shop, salon…"></div>
+<div><label for="tone">Brand voice</label><select id="tone"><option>Friendly and warm</option><option>Fun and playful</option><option>Professional</option><option>Bold and confident</option><option>Calm and elegant</option></select></div>
+<div><label for="goal">Post goal</label><select id="goal"><option>Build engagement</option><option>Promote a product</option><option>Get more customers</option><option>Share a helpful tip</option></select></div>
+</div>
+<label for="topic">What are we posting about?</label>
+<textarea id="topic" rows="3" placeholder="Describe your product, offer, photo or idea…"></textarea>
+<label for="media">Upload photos or videos</label>
+<input type="file" id="media" accept="image/*,video/*" multiple>
+<div class="preview" id="mediaPreview"></div>
+<p class="demo">Local preview only; files are not uploaded to cloud storage yet.</p>
+<div class="actions"><button class="btn primary" id="generate">✧ Create caption draft</button><button class="btn" id="clear">Clear</button></div>
+<div id="result" hidden>
+<label for="caption">Edit your caption</label><textarea id="caption" rows="6"></textarea>
+<div class="actions"><button class="btn primary" id="save">Add to content board</button><button class="btn" id="copy">Copy caption</button></div>
+</div>
+<div id="notice" role="status"></div>
 </section>
 
 <section class="panel" id="board">
-  <div class="sectionhead"><h2>Your Content Board</h2><span style="color:var(--muted);font-size:12px">Sample posts</span></div>
-  <div class="tabs">
-    <button class="tab active" data-filter="All">All Posts</button>
-    <button class="tab" data-filter="Scheduled">Scheduled</button>
-    <button class="tab" data-filter="Draft">Drafts</button>
-    <button class="tab" data-filter="Posted">Posted</button>
-  </div>
-  <div class="postgrid" id="postgrid">
-    <article class="post" data-status="Posted"><div class="art">GOOD CONTENT<br>BUILDS REAL<br>CONNECTIONS ♡</div><div class="postbody"><div class="postbottom">♡ 24 &nbsp; ◯ 3 <span>Sample</span></div><p>Great content isn't just about selling — it's about connecting.</p><div class="tags">#smallbusiness #community</div><span class="status Posted">Posted · Demo</span></div></article>
-    <article class="post" data-status="Scheduled"><div class="art a2">DREAM<br>PLAN<br>CREATE ✨</div><div class="postbody"><div class="postbottom">♡ 18 &nbsp; ◯ 2 <span>Sample</span></div><p>Big goals begin with one small step. What's yours?</p><div class="tags">#motivation #goals</div><span class="status Scheduled">Scheduled · Demo</span></div></article>
-    <article class="post" data-status="Draft"><div class="art a3">SMALL STEPS<br>BIG GOALS</div><div class="postbody"><div class="postbottom">♡ 12 &nbsp; ◯ 1 <span>Sample</span></div><p>Your next idea could be the one that connects.</p><div class="tags">#creator #growth</div><span class="status Draft">Draft · Demo</span></div></article>
-    <article class="post" data-status="Posted"><div class="art a4">CREATE<br>SHARE<br>GROW ♡</div><div class="postbody"><div class="postbottom">♡ 31 &nbsp; ◯ 5 <span>Sample</span></div><p>Beautiful moments deserve to be shared.</p><div class="tags">#behindthescenes #brand</div><span class="status Posted">Posted · Demo</span></div></article>
-    <article class="post" data-status="Scheduled"><div class="art a5">GOOD VIBES<br>GREAT CONTENT</div><div class="postbody"><div class="postbottom">♡ 16 &nbsp; ◯ 4 <span>Sample</span></div><p>Show your audience the people behind your work.</p><div class="tags">#business #community</div><span class="status Scheduled">Scheduled · Demo</span></div></article>
-    <article class="post" data-status="Draft"><div class="art a6">BIGGER DREAMS<br>BRAVER MOVES</div><div class="postbody"><div class="postbottom">♡ 20 &nbsp; ◯ 2 <span>Sample</span></div><p>Keep going. You're building something meaningful.</p><div class="tags">#inspiration #mindset</div><span class="status Draft">Draft · Demo</span></div></article>
-  </div>
-  <p class="demo">Demo cards and metrics are examples, not live social media data.</p>
+<h2>Your Content Board</h2><p class="muted">Your visual workspace for post ideas and drafts.</p>
+<div class="tabs">
+<button class="tab active" data-filter="All">All posts</button><button class="tab" data-filter="Scheduled">Scheduled</button><button class="tab" data-filter="Draft">Drafts</button><button class="tab" data-filter="Posted">Posted</button>
+</div>
+<div class="postgrid" id="postgrid">
+<article class="post" data-status="Posted"><div class="art">GOOD CONTENT<br>BUILDS CONNECTIONS ♡</div><div class="postbody"><div class="postbottom">♡ 24 · Demo</div><p>Connect with your community through meaningful content.</p><span class="status">Posted · Demo</span></div></article>
+<article class="post" data-status="Scheduled"><div class="art a2">DREAM<br>PLAN<br>CREATE ✨</div><div class="postbody"><div class="postbottom">♡ 18 · Demo</div><p>Big goals begin with one small step.</p><span class="status">Scheduled · Demo</span></div></article>
+<article class="post" data-status="Draft"><div class="art a3">SMALL STEPS<br>BIG GOALS</div><div class="postbody"><div class="postbottom">♡ 12 · Demo</div><p>Your next idea could be the one that connects.</p><span class="status">Draft · Demo</span></div></article>
+<article class="post" data-status="Posted"><div class="art a4">CREATE<br>SHARE<br>GROW ♡</div><div class="postbody"><div class="postbottom">♡ 31 · Demo</div><p>Share a beautiful moment from your business.</p><span class="status">Posted · Demo</span></div></article>
+<article class="post" data-status="Scheduled"><div class="art a5">GOOD VIBES<br>GREAT CONTENT</div><div class="postbody"><div class="postbottom">♡ 16 · Demo</div><p>Show the people behind your brand.</p><span class="status">Scheduled · Demo</span></div></article>
+<article class="post" data-status="Draft"><div class="art a6">BIGGER DREAMS<br>BRAVER MOVES</div><div class="postbody"><div class="postbottom">♡ 20 · Demo</div><p>Keep building something meaningful.</p><span class="status">Draft · Demo</span></div></article>
+</div>
+<p class="demo">Sample cards and engagement numbers are illustrative, not live social data.</p>
 </section>
 
 <section class="panel" id="calendar">
-  <h2>Your posting plan</h2>
-  <p style="color:var(--muted);font-size:13px">Choose the days you want to aim for; this does not publish or schedule posts yet.</p>
-  <div class="days">
-    <label><input type="checkbox" checked> Mon</label><label><input type="checkbox"> Tue</label><label><input type="checkbox" checked> Wed</label><label><input type="checkbox"> Thu</label><label><input type="checkbox" checked> Fri</label><label><input type="checkbox"> Sat</label><label><input type="checkbox"> Sun</label>
-  </div>
-  <label for="frequency">Posting frequency</label><select id="frequency"><option>3 times a week</option><option>Once a week</option><option>5 times a week</option><option>Every day</option></select>
-  <div id="calendarMsg" style="margin-top:12px;color:#b9a3ff"></div>
-  <button class="btn primary" id="planSave" style="margin-top:10px">Save posting preference</button>
+<h2>▦ Posting Planner</h2><p class="muted">Choose your target posting days.</p>
+<div class="formgrid" id="days">
+<label><input type="checkbox" value="Mon" checked> Monday</label>
+<label><input type="checkbox" value="Tue"> Tuesday</label>
+<label><input type="checkbox" value="Wed" checked> Wednesday</label>
+<label><input type="checkbox" value="Thu"> Thursday</label>
+<label><input type="checkbox" value="Fri" checked> Friday</label>
+<label><input type="checkbox" value="Sat"> Saturday</label>
+<label><input type="checkbox" value="Sun"> Sunday</label>
+</div>
+<label for="frequency">Posting frequency</label><select id="frequency"><option>3 times a week</option><option>Once a week</option><option>5 times a week</option><option>Every day</option></select>
+<button class="btn primary" id="savePlan" style="margin-top:12px">Save my preference</button><p id="planMessage" class="muted"></p>
+</section>
+
+<section class="panel" id="edit">
+<h2>✂ Edit Studio</h2>
+<p class="muted">Upload a video, preview a section, and prepare an edit plan.</p>
+<label for="videoFile">Choose a video from your device</label>
+<input id="videoFile" type="file" accept="video/*">
+<video id="videoPreview" controls playsinline hidden></video>
+<div id="videoTools" hidden>
+<div class="formgrid">
+<div><label for="clipStart">Clip start (seconds)</label><input id="clipStart" type="number" min="0" step=".5" value="0"></div>
+<div><label for="clipEnd">Clip end (seconds)</label><input id="clipEnd" type="number" min="0" step=".5" value="10"></div>
+</div>
+<label for="format">Target format</label>
+<select id="format"><option>Vertical · Reels / TikTok (9:16)</option><option>Square · Feed (1:1)</option><option>Landscape · YouTube (16:9)</option></select>
+<label for="editGoal">What should improve?</label>
+<select id="editGoal"><option>Make a shorter social clip</option><option>Create a stronger opening hook</option><option>Plan subtitles</option><option>Promote a product</option><option>Make a Reels or TikTok edit plan</option></select>
+<div class="actions"><button class="btn primary" id="previewClip">▶ Preview selected clip</button><button class="btn" id="suggestEdit">✧ Suggest AI edits</button></div>
+<div id="editMessage" role="status"></div><div class="idea" id="editPlan" hidden></div>
+</div>
+<p class="demo">Preview and edit suggestions are local starter features. Actual AI editing, subtitles, trimming and exported files need a video-processing service.</p>
 </section>
 
 <section class="panel" id="ideas">
-  <h2>Ideas to get you started</h2>
-  <div class="idea">📸 Behind the scenes — show how your product or service comes to life.<small>Build trust · Photo or short video</small></div>
-  <div class="idea">💡 One useful tip — answer a question your customers often ask.<small>Educate · Carousel or single image</small></div>
-  <div class="idea">💬 Customer spotlight — celebrate a review or customer story with permission.<small>Build community · Testimonial</small></div>
-  <div class="idea">🎉 This week's offer — explain who it's for and how to get it.<small>Promote · Offer post</small></div>
+<h2>✧ Content Inspiration</h2>
+<div class="idea">📸 <b>Behind the scenes</b><small>Show how your product or service comes to life.</small></div>
+<div class="idea">💡 <b>One useful tip</b><small>Answer a question your customers often ask.</small></div>
+<div class="idea">💬 <b>Customer spotlight</b><small>Share a customer story with permission.</small></div>
+<div class="idea">🎉 <b>This week's offer</b><small>Give customers one clear next step.</small></div>
 </section>
 
 <section class="panel" id="analytics">
-  <h2>Your growth overview</h2><p style="color:var(--muted)">Example metrics only. Connect your social accounts to see real performance.</p>
-  <div class="stats"><div class="stat"><span>Total reach</span><strong>—</strong></div><div class="stat"><span>Engagement</span><strong>—</strong></div><div class="stat"><span>New followers</span><strong>—</strong></div><div class="stat"><span>Profile visits</span><strong>—</strong></div></div>
+<h2>▥ Growth Overview</h2><p class="muted">Connect your social accounts to display real performance.</p>
+<div class="stats"><div class="stat"><small>Total reach</small><strong>—</strong></div><div class="stat"><small>Engagement</small><strong>—</strong></div><div class="stat"><small>Followers</small><strong>—</strong></div><div class="stat"><small>Profile visits</small><strong>—</strong></div></div>
 </section>
 
 <section class="panel" id="photos">
-  <h2>Your photo studio</h2><p style="color:var(--muted)">Select images in Create Post to preview them locally. Secure cloud photo storage will be connected in a later step.</p><button class="btn primary" data-go="create">＋ Choose photos</button>
+<h2>▧ Media Library</h2><p class="muted">Select photos or videos in Create Post to preview them on this device. Cloud storage is not connected yet.</p><button class="btn primary" data-go="create">＋ Choose media</button>
 </section>
 
 <section class="panel" id="plans">
-  <h2>Simple plans for every stage</h2>
-  <p style="color:var(--muted)">These are proposed prices; checkout and subscriptions are not connected yet.</p>
-  <div class="postgrid">
-    <div class="plan"><h3>Free</h3><h2>$0</h2><p>Try the content board and explore starter drafts.</p></div>
-    <div class="plan"><h3>Starter</h3><h2>$19<span style="font-size:12px">/mo</span></h2><p>For creators building a consistent routine.</p></div>
-    <div class="plan"><h3>Growth</h3><h2>$49<span style="font-size:12px">/mo</span></h2><p>For growing brands and content planning.</p></div>
-    <div class="plan"><h3>Business</h3><h2>$99<span style="font-size:12px">/mo</span></h2><p>For teams managing more content and accounts.</p></div>
-  </div>
+<h2>♛ Plans for every stage</h2><p class="muted">Proposed prices; payments and subscription limits are not connected yet.</p>
+<div class="postgrid">
+<div class="plan"><h3>Free</h3><h2>$0</h2><p>Explore sample drafts.</p></div>
+<div class="plan"><h3>Starter</h3><h2>$19/mo</h2><p>Build a posting routine.</p></div>
+<div class="plan"><h3>Growth</h3><h2>$49/mo</h2><p>Plan content for a growing brand.</p></div>
+<div class="plan"><h3>Business</h3><h2>$99/mo</h2><p>Manage more content and accounts.</p></div>
+</div>
 </section>
 </main>
 
 <aside class="right">
-  <section class="panel"><h2>Your Growth</h2><div class="stats">
-    <div class="stat"><span>♡ Total reach</span><strong>—</strong></div>
-    <div class="stat"><span>♥ Engagement</span><strong>—</strong></div>
-    <div class="stat"><span>♙ Followers</span><strong>—</strong></div>
-    <div class="stat"><span>↗ Profile visits</span><strong>—</strong></div>
-  </div><p class="demo">Live analytics appear after social account integration.</p></section>
-  <section class="panel"><h2>✧ Content Inspiration</h2>
-    <div class="idea">📷 Behind the scenes<small>Show the human side of your brand.</small></div>
-    <div class="idea">💬 Answer a common question<small>Make a helpful, save-worthy post.</small></div>
-    <div class="idea">🎁 Highlight an offer<small>Give customers one clear next step.</small></div>
-  </section>
-  <section class="panel"><h2>Quick Actions</h2>
-    <button class="btn quick" data-go="create">✧ Generate a caption</button>
-    <button class="btn quick" data-go="photos">▧ Add photos</button>
-    <button class="btn quick" data-go="calendar">▦ Plan posting days</button>
-    <button class="btn quick" data-go="plans">♛ Explore plans</button>
-  </section>
-  <section class="plan"><h3>🐈‍⬛ Your creative corner</h3><p>Small steps. Better content. Stronger connections.</p><button class="btn primary" data-go="create">Let's create →</button></section>
+<section class="panel"><h2>Your Growth</h2><div class="stats">
+<div class="stat"><small>Reach</small><strong>—</strong></div><div class="stat"><small>Engagement</small><strong>—</strong></div><div class="stat"><small>Followers</small><strong>—</strong></div><div class="stat"><small>Visits</small><strong>—</strong></div>
+</div><p class="demo">Live metrics require social account connections.</p></section>
+<section class="panel"><h2>Content Ideas</h2><div class="idea">📷 Behind the scenes<small>Show your brand's personality.</small></div><div class="idea">💬 Answer a question<small>Create something helpful.</small></div><div class="idea">🎁 Highlight an offer<small>Make your next step clear.</small></div></section>
+<section class="panel"><h2>Quick Actions</h2><button class="btn" data-go="create">✧ Write a caption</button><p><button class="btn" data-go="edit">✂ Edit a video</button></p><button class="btn" data-go="calendar">▦ Plan your week</button></section>
+<section class="plan"><h3>🐈‍⬛ Your creative corner</h3><p class="muted">Better content. Stronger connections.</p><button class="btn primary" data-go="create">Let's create →</button></section>
 </aside>
 </div>
-<footer>AI Social Studio · Your ideas. Your brand. Your growth. <br>Prototype preview — AI, cloud storage, payments, and social publishing are not yet connected.</footer>
+<footer>AI Social Studio · Your ideas. Your brand. Your growth.<br>Prototype: real AI, cloud storage, payments and publishing are not connected.</footer>
 
 <script>
-const $ = id => document.getElementById(id);
-function show(id) {
-  const target = $(id);
-  if (target) target.scrollIntoView({behavior:"smooth",block:"start"});
-}
-document.querySelectorAll("[data-go]").forEach(b => b.addEventListener("click",()=>show(b.dataset.go==="create"?"creator":b.dataset.go)));
+const $=id=>document.getElementById(id);
+function go(id){$(id)?.scrollIntoView({behavior:"smooth",block:"start"});}
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go==="create"?"creator":b.dataset.go)));
 document.querySelectorAll("[data-view]").forEach(b=>b.addEventListener("click",()=>{
-  document.querySelectorAll("[data-view]").forEach(x=>x.classList.toggle("active",x===b));
-  show(({home:"board",create:"creator",ideas:"ideas",calendar:"calendar",analytics:"analytics",photos:"photos",plans:"plans"})[b.dataset.view]);
+document.querySelectorAll("[data-view]").forEach(x=>x.classList.toggle("active",x===b));
+go(({home:"board",create:"creator",ideas:"ideas",calendar:"calendar",edit:"edit",analytics:"analytics",photos:"photos",plans:"plans"})[b.dataset.view]);
 }));
 document.querySelectorAll("[data-filter]").forEach(b=>b.addEventListener("click",()=>{
-  document.querySelectorAll("[data-filter]").forEach(x=>x.classList.toggle("active",x===b));
-  document.querySelectorAll("#postgrid .post").forEach(p=>p.hidden=b.dataset.filter!=="All"&&p.dataset.status!==b.dataset.filter);
+document.querySelectorAll("[data-filter]").forEach(x=>x.classList.toggle("active",x===b));
+document.querySelectorAll("#postgrid .post").forEach(p=>p.hidden=b.dataset.filter!=="All"&&p.dataset.status!==b.dataset.filter);
 }));
 $("search").addEventListener("input",e=>{
-  const q=e.target.value.toLowerCase();
-  document.querySelectorAll("#postgrid .post").forEach(p=>p.hidden=!p.innerText.toLowerCase().includes(q));
+let q=e.target.value.toLowerCase();
+document.querySelectorAll("#postgrid .post").forEach(p=>p.hidden=!p.innerText.toLowerCase().includes(q));
 });
 $("generate").addEventListener("click",()=>{
-  const brand=$("business").value.trim()||"our brand";
-  const kind=$("kind").value.trim();
-  const topic=$("topic").value.trim()||"a little update from our business";
-  const tone=$("tone").value;
-  const goal=$("goal").value.toLowerCase();
-  const openers={
-    "Friendly and warm":"A little something we're excited to share 💜",
-    "Fun and playful":"Good things are happening, and we had to tell you! ✨",
-    "Professional":"We're pleased to share an update with our community.",
-    "Bold and confident":"Here's your reminder to make your next move count. 🔥",
-    "Calm and elegant":"Thoughtfully made, with you in mind."
-  };
-  $("caption").value=`${openers[tone]}\n\n${topic}\n\nAt ${brand}${kind?" ("+kind+")":""}, we're here to ${goal}. Tell us your thoughts in the comments! 💬\n\n#SmallBusiness #Community #${brand.replace(/[^a-z0-9]/gi,"")}`;
-  $("result").hidden=false;
-  $("notice").textContent="Your starter caption is ready to review. This is a template, not AI-generated content yet.";
-  show("result");
+let brand=$("business").value.trim()||"our brand",kind=$("kind").value.trim();
+let topic=$("topic").value.trim()||"a little update from our business";
+let opener={"Friendly and warm":"A little something we're excited to share 💜","Fun and playful":"Good things are happening, and we had to tell you! ✨","Professional":"We're pleased to share an update with our community.","Bold and confident":"Here's your reminder to make your next move count. 🔥","Calm and elegant":"Thoughtfully made, with you in mind."}[$("tone").value];
+$("caption").value=opener+"\n\n"+topic+"\n\nAt "+brand+(kind?" ("+kind+")":"")+", we'd love to hear what you think. Tell us in the comments! 💬\n\n#SmallBusiness #Community";
+$("result").hidden=false;$("notice").textContent="Starter template created — real AI is not connected yet.";go("result");
 });
-$("clear").addEventListener("click",()=>{
-  $("topic").value="";$("caption").value="";$("result").hidden=true;$("notice").textContent="";
-});
+$("clear").addEventListener("click",()=>{$("topic").value="";$("caption").value="";$("result").hidden=true;$("notice").textContent="";});
 $("copy").addEventListener("click",async()=>{
-  try{await navigator.clipboard.writeText($("caption").value);$("notice").textContent="Caption copied."}
-  catch(e){$("caption").select();$("notice").textContent="Select and copy the caption above."}
+try{await navigator.clipboard.writeText($("caption").value);$("notice").textContent="Caption copied."}
+catch(e){$("caption").select();$("notice").textContent="Select and copy the caption."}
 });
 $("save").addEventListener("click",()=>{
-  const caption=$("caption").value.trim();
-  if(!caption){$("notice").textContent="Write a caption first.";return}
-  const card=document.createElement("article");card.className="post";card.dataset.status="Draft";
-  const art=document.createElement("div");art.className="art a4";art.textContent="YOUR NEXT POST ✨";
-  const body=document.createElement("div");body.className="postbody";
-  const p=document.createElement("p");p.textContent=caption;
-  const status=document.createElement("span");status.className="status Draft";status.textContent="Draft · This browser";
-  body.append(p,status);card.append(art,body);$("postgrid").prepend(card);
-  $("notice").textContent="Added to this page's content board. It is not saved to an account or cloud yet.";
-  show("board");
+let card=document.createElement("article");card.className="post";card.dataset.status="Draft";
+let art=document.createElement("div");art.className="art a4";art.textContent="YOUR NEXT POST ✨";
+let body=document.createElement("div");body.className="postbody";
+let p=document.createElement("p");p.textContent=$("caption").value;
+let s=document.createElement("span");s.className="status";s.textContent="Draft · This browser";
+body.append(p,s);card.append(art,body);$("postgrid").prepend(card);
+$("notice").textContent="Added to this page only; not saved to an account or cloud.";go("board");
 });
-$("photos").addEventListener("change",e=>{
-  const box=$("preview");box.replaceChildren();
-  [...e.target.files].slice(0,8).forEach(file=>{
-    if(!file.type.startsWith("image/"))return;
-    const img=document.createElement("img");img.alt=file.name;img.src=URL.createObjectURL(file);box.append(img);
-  });
+$("media").addEventListener("change",e=>{
+let box=$("mediaPreview");box.replaceChildren();
+[...e.target.files].slice(0,8).forEach(file=>{
+let url=URL.createObjectURL(file);
+if(file.type.startsWith("image/")){let img=document.createElement("img");img.src=url;img.alt=file.name;box.append(img);}
+else if(file.type.startsWith("video/")){let v=document.createElement("video");v.src=url;v.controls=true;v.playsInline=true;v.style.width="130px";v.style.maxHeight="120px";box.append(v);}
 });
-$("planSave").addEventListener("click",()=>{
-  const days=[...document.querySelectorAll(".days input:checked")].map(x=>x.parentElement.textContent.trim());
-  $("calendarMsg").textContent=days.length?`Your preference: ${$("frequency").value}, on ${days.join(", ")}. This is saved only while this page remains open.`:"Choose at least one posting day.";
+});
+$("savePlan").addEventListener("click",()=>{
+let days=[...document.querySelectorAll("#days input:checked")].map(x=>x.value);
+$("planMessage").textContent=days.length?"Preference: "+$("frequency").value+" on "+days.join(", ")+". This is not an active publishing schedule.":"Choose at least one day.";
+});
+let videoUrl=null;
+$("videoFile").addEventListener("change",e=>{
+let file=e.target.files[0];if(!file)return;
+if(videoUrl)URL.revokeObjectURL(videoUrl);
+videoUrl=URL.createObjectURL(file);
+let v=$("videoPreview");v.src=videoUrl;v.hidden=false;$("videoTools").hidden=false;
+$("editMessage").textContent="Video loaded locally; it has not been uploaded.";
+v.onloadedmetadata=()=>{
+$("clipStart").value=0;$("clipEnd").value=Math.floor(v.duration);
+$("clipStart").max=v.duration;$("clipEnd").max=v.duration;
+};
+});
+$("previewClip").addEventListener("click",()=>{
+let v=$("videoPreview"),start=Number($("clipStart").value),end=Number($("clipEnd").value);
+if(!v.src||start<0||end<=start||end>v.duration){$("editMessage").textContent="Choose valid start and end times within your video.";return;}
+v.currentTime=start;v.play();
+v.ontimeupdate=()=>{if(v.currentTime>=end){v.pause();v.ontimeupdate=null;}};
+$("editMessage").textContent="Previewing the selected section. No edited file is exported.";
+});
+$("suggestEdit").addEventListener("click",()=>{
+let v=$("videoPreview"),start=Number($("clipStart").value),end=Number($("clipEnd").value);
+if(!v.src||end<=start){$("editMessage").textContent="Upload a video and choose a valid clip range first.";return;}
+$("editPlan").textContent="Starter edit plan: "+$("editGoal").value+". Format: "+$("format").value+". Consider a clear opening hook, removing pauses, readable subtitles and a focused message. Selected length: "+(end-start)+" seconds. This is a template suggestion, not a real AI edit.";
+$("editPlan").hidden=false;$("editMessage").textContent="Edit plan ready for review; AI video processing is not connected.";
 });
 </script>
 </body>
