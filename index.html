@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Social Studio</title>
+<style>
+:root{--bg:#0b0c12;--panel:#151722;--line:#292c3c;--text:#f4f4fb;--muted:#a5a8ba;--accent:#a78bfa;--green:#8ce0b0}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px -apple-system,BlinkMacSystemFont,sans-serif}
+header{padding:20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:800;font-size:20px}.logo span{color:var(--accent)}
+main{max-width:1050px;margin:auto;padding:24px 16px}
+h1{font-size:30px;margin:8px 0}p{color:var(--muted);line-height:1.5}
+.pill{color:var(--green);font-size:12px;border:1px solid #315b49;padding:6px 10px;border-radius:30px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:16px;margin-top:22px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:19px}
+h2{font-size:18px;margin-top:0}
+label{display:block;color:var(--muted);font-size:13px;margin:15px 0 7px}
+input,select,textarea{width:100%;padding:12px;background:#0d0f18;border:1px solid var(--line);border-radius:9px;color:var(--text);font:inherit}
+textarea{min-height:85px;resize:vertical}
+button{border:0;border-radius:10px;padding:12px 15px;background:var(--accent);color:#151020;font-weight:700;font-size:14px;cursor:pointer}
+button.secondary{background:#25283a;color:var(--text);border:1px solid var(--line)}
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}
+.days{display:flex;flex-wrap:wrap;gap:7px}
+.day{padding:9px 11px;background:#222537;color:var(--muted);border-radius:8px;cursor:pointer;font-size:13px}
+.day.active{background:#b9a6ff;color:#171023}
+.preview{border:1px solid var(--line);border-radius:12px;padding:15px;margin-top:14px;background:#0d0f18}
+.small{font-size:12px;color:var(--muted)}
+.stat{font-size:26px;font-weight:800;margin:8px 0}
+#result{white-space:pre-wrap;line-height:1.65;color:var(--text)}
+footer{text-align:center;padding:28px;color:var(--muted);font-size:12px}
+</style>
+</head>
+<body>
+<header><div class="logo">✦ AI Social <span>Studio</span></div><span class="pill">YOUR CONTENT HQ</span></header>
+<main>
+<p>YOUR AI-POWERED SOCIAL MEDIA WORKSPACE</p>
+<h1>Make your brand impossible to ignore.</h1>
+<p>Create a content kit, organize your photos, and plan your posts in minutes.</p>
+
+<div class="grid">
+<section class="card">
+<h2>01 · Your brand</h2>
+<label>Business name</label>
+<input id="brand" placeholder="e.g. Luna Beauty Studio">
+<label>Business type</label>
+<select id="industry">
+<option>Any business</option><option>Restaurant / Cafe</option><option>Beauty / Wellness</option><option>Real Estate</option><option>Retail / Online Store</option><option>Fitness</option><option>Home Services</option><option>Professional Services</option>
+</select>
+<label>Brand personality</label>
+<select id="tone"><option>Friendly and approachable</option><option>Bold and confident</option><option>Luxury and elegant</option><option>Playful and creative</option><option>Professional and trustworthy</option></select>
+<label>Main goal</label>
+<select id="goal"><option>Attract new customers</option><option>Increase sales</option><option>Build brand awareness</option><option>Keep social media active</option></select>
+</section>
+
+<section class="card">
+<h2>02 · Your content kit</h2>
+<label>Posting frequency</label>
+<select id="frequency"><option>2 posts per week</option><option selected>3 posts per week</option><option>5 posts per week</option><option>Every day</option></select>
+<label>Choose posting days</label>
+<div class="days" id="days">
+<span class="day active">Mon</span><span class="day">Tue</span><span class="day active">Wed</span><span class="day">Thu</span><span class="day active">Fri</span><span class="day">Sat</span><span class="day">Sun</span>
+</div>
+<label>Social platforms</label>
+<select id="platform"><option>Instagram + Facebook</option><option>Instagram</option><option>Facebook</option><option>TikTok</option><option>All platforms</option></select>
+<label>Image approach</label>
+<select id="images"><option>Use my own photos</option><option>AI image ideas</option><option>Mix my photos and AI visuals</option></select>
+<label>Upload photos</label>
+<input id="photos" type="file" accept="image/*" multiple>
+<p class="small">Photo upload is for this browser preview. Secure cloud storage will be added later.</p>
+</section>
+
+<section class="card">
+<h2>03 · Generate your plan</h2>
+<p>Build a starter content kit using your business details and schedule.</p>
+<label>Offer or details to mention (optional)</label>
+<textarea id="details" placeholder="e.g. New seasonal menu, booking link, special offer"></textarea>
+<label>Preferred post format</label>
+<select id="format"><option>Mix of educational, promotional and engaging posts</option><option>Promotional posts</option><option>Helpful tips</option><option>Behind the scenes</option><option>Customer questions and answers</option></select>
+<div class="actions"><button onclick="generate()">Create my content kit</button><button class="secondary" onclick="window.print()">Print / Save</button></div>
+<p class="small">This starter version creates a local sample plan. A live AI provider and automatic publishing will be connected in later steps.</p>
+</section>
+
+<section class="card">
+<h2>04 · Your content preview</h2>
+<div class="stat" id="count">3</div><p>Planned posts per week</p>
+<div class="preview"><strong id="previewTitle">Your brand preview</strong><p id="previewDesc">Your generated content kit will appear here.</p></div>
+<div id="result">Tap “Create my content kit” to generate your starter plan.</div>
+<div id="photoPreview"></div>
+</section>
+</div>
+
+<section class="card" style="margin-top:18px">
+<h2>Plans for growing businesses</h2>
+<div class="grid">
+<div><p>FREE</p><div class="stat">$0</div><p>Try content planning and previews.</p></div>
+<div><p>STARTER</p><div class="stat">$19<span class="small"> / month</span></div><p>More content and brand tools.</p></div>
+<div><p>GROWTH</p><div class="stat">$49<span class="small"> / month</span></div><p>Expanded content and supported scheduling.</p></div>
+<div><p>BUSINESS</p><div class="stat">$99<span class="small"> / month</span></div><p>Multi-brand workflows and advanced tools.</p></div>
+</div>
+<p class="small">Plan previews only. Payments and subscription access are not connected yet.</p>
+</section>
+</main>
+<footer>AI Social Studio · Create better content with less busywork.</footer>
+<script>
+const selectedDays=()=>[...document.querySelectorAll('.day.active')].map(x=>x.textContent);
+document.querySelectorAll('.day').forEach(el=>el.onclick=()=>{el.classList.toggle('active');updateCount()});
+function updateCount(){document.getElementById('count').textContent=document.getElementById('frequency').selectedIndex===0?2:document.getElementById('frequency').selectedIndex===1?3:document.getElementById('frequency').selectedIndex===2?5:7}
+document.getElementById('frequency').onchange=updateCount;
+function generate(){
+const brand=document.getElementById('brand').value.trim()||'Your Business';
+const industry=document.getElementById('industry').value;
+const goal=document.getElementById('goal').value;
+const tone=document.getElementById('tone').value;
+const days=selectedDays();
+const details=document.getElementById('details').value.trim();
+const format=document.getElementById('format').value;
+const n=document.getElementById('count').textContent;
+document.getElementById('previewTitle').textContent=brand+' · '+industry;
+document.getElementById('previewDesc').textContent='Voice: '+tone+'. Goal: '+goal+'.';
+const templates=[
+'Meet '+brand+'! We are here to make your day a little better. Tell us what you would love to see next. #SmallBusiness',
+'Here is a helpful tip from '+brand+': share what makes your experience unique and give customers a simple next step. #HelpfulTips',
+'Getting to know our community is one of our favorite parts of what we do. What questions can we answer for you? #Community'
+];
+let output='YOUR STARTER CONTENT KIT\\n\\n';
+for(let i=0;i<Math.min(Number(n),7);i++){
+output+='POST '+(i+1)+' · '+(days[i%Math.max(days.length,1)]||'Choose a day')+'\\n';
+output+=templates[i%templates.length]+'\\n';
+output+='Format: '+format+'\\n';
+if(details)output+='Business details: '+details+'\\n';
+output+='Suggested action: Invite customers to comment or contact your business.\\n\\n';
+}
+output+='NEXT STEP\\nReview every post and edit any details before publishing. This sample is generated in your browser, not by a connected AI service.';
+document.getElementById('result').textContent=output;
+}
+document.getElementById('photos').onchange=function(){
+const area=document.getElementById('photoPreview');area.innerHTML='';
+[...this.files].forEach(file=>{const img=document.createElement('img');img.alt=file.name;img.style.cssText='width:80px;height:80px;object-fit:cover;border-radius:8px;margin:8px 8px 0 0';img.src=URL.createObjectURL(file);area.appendChild(img)});
+};
+</script>
+</body>
+</html>
